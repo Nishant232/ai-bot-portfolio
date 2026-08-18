@@ -10,7 +10,7 @@
 ## ✨ Features
 
 - 💬 **Interactive Candidate AI Agent**: Speaks in first-person as the candidate, answering recruiter questions strictly grounded in `candidate_profile.json` (zero hallucinations).
-- ⚡ **Server-Sent Events (SSE) Streaming**: Real-time token-by-token response generation powered by Groq's high-speed `llama-3.3-70b-versatile` model.
+- ⚡ **Server-Sent Events (SSE) Streaming**: Real-time token-by-token response generation powered by Groq's high-speed `openai/gpt-oss-120b` model.
 - 🎯 **Job Description (JD) Suitability Analyzer**: HR can paste any job description to instantly receive a 0–100% suitability match score, key strengths, skill gaps, and hiring recommendation.
 - 🎙️ **Voice Control Assistant**: Built-in Speech-to-Text (microphone input) and Text-to-Speech (read answers aloud).
 - 🔍 **Candidate Data Inspector**: Interactive modal allowing recruiters to inspect the raw JSON data grounding the AI to verify accuracy.
@@ -24,7 +24,7 @@
 - **Python 3.10+**
 - **FastAPI**: Asynchronous web framework serving REST & SSE streaming endpoints.
 - **Pydantic v2**: Data validation schemas for profile data and API payloads.
-- **Groq API / HTTPX**: Ultra-fast LLM inference API (`llama-3.3-70b-versatile`).
+- **Groq API / HTTPX**: Ultra-fast LLM inference API (`openai/gpt-oss-120b`).
 
 ### Frontend
 - **React 18 + Vite**: Lightning-fast web application build tool.

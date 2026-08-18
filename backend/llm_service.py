@@ -19,7 +19,7 @@ except ImportError:
 
 # FIX #3: Use the constant everywhere — no more redundant os.getenv() inside functions
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
-DEFAULT_MODEL = os.getenv("MODEL_NAME", "llama-3.3-70b-versatile")
+DEFAULT_MODEL = os.getenv("MODEL_NAME", "openai/gpt-oss-120b")
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 # FIX #12: Sliding window — only send last N turns to avoid hitting context limits
@@ -33,7 +33,14 @@ async def stream_chat_response(
     """
     Streams chat completion tokens from Groq API or fallback mock generator.
     """
-    system_prompt = build_system_persona_prompt(profile_dict)
+    # FIX #22: Embedding the full profile JSON (all projects' architecture/workflow/
+    # highlights) in every system prompt blew past Groq's free-tier 8000 TPM limit as
+    # soon as the project catalog grew — a single request needed 10,620 tokens and got
+    # a silent 413. Only the specifically-asked-about project (if any) gets full detail;
+    # every other project is condensed to title/tagline/description/tech_stack.
+    last_user_msg = messages[-1].content if messages else ""
+    context_profile = _build_context_profile(profile_dict, last_user_msg)
+    system_prompt = build_system_persona_prompt(context_profile)
 
     # FIX #12: Trim history to last MAX_HISTORY_TURNS to prevent context overflow
     trimmed_messages = messages[-MAX_HISTORY_TURNS:]
@@ -98,7 +105,13 @@ async def analyze_job_description(
     """
     Analyzes candidate fit against a Job Description using Groq LLM or heuristic fallback.
     """
-    system_prompt = build_jd_analysis_prompt(profile_dict, job_description)
+    # FIX #22: JD matching only needs tech_stack/description per project, not full
+    # architecture/workflow prose — condense all projects to keep this under Groq's TPM limit.
+    context_profile = dict(profile_dict)
+    for key in ("projects", "additional_projects"):
+        context_profile[key] = [_condensed_project(p) for p in profile_dict.get(key, [])]
+
+    system_prompt = build_jd_analysis_prompt(context_profile, job_description)
 
     # FIX #3: Use module-level constant
     if GROQ_API_KEY and HTTPX_AVAILABLE:
@@ -217,6 +230,43 @@ def _format_project_detail(p: dict) -> str:
         lines.append(f"\n🔗 GitHub: {p['github_url']}")
     if p.get("live_url"):
         lines.append(f"🌐 Live: {p['live_url']}")
+
+    return "\n".join(lines)
+
+
+def _condensed_project(p: dict) -> dict:
+    """Strips a project down to what's needed for listing/ranking questions — no
+    architecture/workflow/highlights prose, which is what actually blows up token count."""
+    condensed = {
+        "title": p.get("title"),
+        "tagline": p.get("tagline"),
+        "description": p.get("description"),
+        "tech_stack": p.get("tech_stack", []),
+        "github_url": p.get("github_url"),
+    }
+    if p.get("live_url"):
+        condensed["live_url"] = p["live_url"]
+    return condensed
+
+
+def _build_context_profile(profile_dict: dict, last_user_msg: str) -> dict:
+    """
+    FIX #22: Builds the profile dict actually sent to the LLM. Every project is condensed
+    (title/tagline/description/tech_stack only) EXCEPT the one the user's latest message
+    names, if any — that one keeps its full architecture/workflow/highlights detail. Keeps
+    the system prompt's size roughly constant as the project catalog grows, instead of
+    scaling linearly with every project ever added.
+    """
+    mentioned = _find_mentioned_project(last_user_msg.lower(), profile_dict)
+    mentioned_title = mentioned.get("title") if mentioned else None
+
+    context = dict(profile_dict)
+    for key in ("projects", "additional_projects"):
+        context[key] = [
+            p if p.get("title") == mentioned_title else _condensed_project(p)
+            for p in profile_dict.get(key, [])
+        ]
+    return context
 
     return "\n".join(lines)
 
