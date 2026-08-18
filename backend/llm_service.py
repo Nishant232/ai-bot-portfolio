@@ -39,6 +39,23 @@ async def stream_chat_response(
     # a silent 413. Only the specifically-asked-about project (if any) gets full detail;
     # every other project is condensed to title/tagline/description/tech_stack.
     last_user_msg = messages[-1].content if messages else ""
+    last_user_msg_lower = last_user_msg.lower()
+
+    # FIX #24: "List all projects" was truncating mid-response — a genuinely complete
+    # listing of 12 projects needs 5000+ output tokens in gpt-oss-120b's default verbose
+    # style, which structurally cannot fit alongside the input under an 8000 TPM budget no
+    # matter how high max_tokens is set. Asking the model to "be concise" isn't reliable
+    # (confirmed: it ignored the instruction on a second identical test). For this specific
+    # request shape, skip the LLM entirely and stream the deterministic fallback formatter,
+    # which is already guaranteed-complete and was already hardened for this exact case.
+    if not _find_mentioned_project(last_user_msg_lower, profile_dict) and _wants_full_project_list(last_user_msg_lower):
+        fallback_reply = _generate_fallback_reply(last_user_msg, profile_dict)
+        words = fallback_reply.split(" ")
+        for idx, word in enumerate(words):
+            yield word + (" " if idx < len(words) - 1 else "")
+            await asyncio.sleep(0.04)
+        return
+
     context_profile = _build_context_profile(profile_dict, last_user_msg)
     system_prompt = build_system_persona_prompt(context_profile)
 
@@ -158,6 +175,25 @@ def _get_ranked_projects(profile: dict) -> list:
         has_arch = 1 if p.get("architecture") else 0
         return -(has_live * 2 + has_arch)
     return sorted(projects, key=rank_key)
+
+
+# FIX #24: Explicit "give me everything" phrasing only — deliberately narrower than the
+# fallback engine's own broad listing trigger, so ordinary project questions ("what have
+# you built with React?") still go to the live LLM instead of being forced into the
+# deterministic formatter.
+_FULL_LISTING_PHRASES = [
+    "all project", "every project", "all your project", "all my project",
+    "all the project", "complete list", "full list", "list everything",
+    "entire portfolio", "all of your project", "all of my project",
+]
+
+
+def _wants_full_project_list(user_msg_lower: str) -> bool:
+    """True only for an explicit 'list every project' request — top-N stays short
+    enough that the live LLM handles it fine without hitting the token ceiling."""
+    if re.search(r'top\s*\d+|best\s*\d+|\d+\s*(?:best|top|main|key)\s*project', user_msg_lower):
+        return False
+    return any(phrase in user_msg_lower for phrase in _FULL_LISTING_PHRASES)
 
 
 # FIX #19: Generic words that appear in many project titles but aren't distinctive
