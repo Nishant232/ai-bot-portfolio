@@ -60,7 +60,10 @@ async def stream_chat_response(
             "model": DEFAULT_MODEL,
             "messages": payload_messages,
             "temperature": 0.3,
-            "max_tokens": 1024,
+            # FIX #23: 1024 was too tight for a full 12-project listing with gpt-oss-120b's
+            # verbose style — it truncated mid-response (see prompts.py rule #5 for the
+            # matching concise-listing instruction that keeps this within budget).
+            "max_tokens": 2000,
             "stream": True
         }
 
