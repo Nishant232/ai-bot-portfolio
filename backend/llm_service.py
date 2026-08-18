@@ -168,6 +168,8 @@ def _get_ranked_projects(profile: dict) -> list:
     """
     FIX #18: Returns ranked projects dynamically instead of relying on hardcoded
     array indices. Ranks by: has live_url > has architecture > default order.
+    Used only for the full-listing's "Main Projects" section — kept scoped to
+    `projects` (not `additional_projects`) since that section header is deliberate.
     """
     projects = profile.get("projects", [])
     def rank_key(p):
@@ -175,6 +177,51 @@ def _get_ranked_projects(profile: dict) -> list:
         has_arch = 1 if p.get("architecture") else 0
         return -(has_live * 2 + has_arch)
     return sorted(projects, key=rank_key)
+
+
+_AI_KEYWORDS = [
+    "gpt", "llm", "llama", "nemotron", "openrouter", "sentence transformer",
+    "embedding", "rag", "nlp", "nltk", "scikit-learn", "tf-idf", "naive bayes",
+    "opencv", "face_recognition", "ollama", "langchain", "chatollama",
+    "genetic algorithm", "particle swarm", "artificial intelligence",
+    "machine learning", "generative ai",
+]
+
+
+def _is_ai_focused(p: dict) -> bool:
+    """Heuristic: does this project's tech stack/description genuinely involve AI/ML/LLM work?"""
+    haystack = " ".join([
+        p.get("title", ""), p.get("tagline", ""), p.get("description", ""),
+        " ".join(p.get("tech_stack", [])),
+    ]).lower()
+    return any(kw in haystack for kw in _AI_KEYWORDS)
+
+
+def _wants_ai_focused_ranking(user_msg_lower: str) -> bool:
+    """Detects an AI/ML/LLM domain qualifier on a top-N request (e.g. 'top 3 in AI/ML')."""
+    return bool(
+        re.search(r'\b(ai|ml|llm|genai)\b', user_msg_lower)
+        or "machine learning" in user_msg_lower
+        or "artificial intelligence" in user_msg_lower
+        or "generative ai" in user_msg_lower
+    )
+
+
+def _get_topn_candidate_pool(profile: dict, prioritize_ai: bool) -> list:
+    """
+    FIX #26: "Top N" previously only pooled `projects` (main), silently excluding
+    Sentinel-K8s/Forge/ERA-AI no matter how relevant — "top 3 in AI/ML" returned
+    generic picks with zero real AI focus. Pools every project together and, when a
+    domain qualifier is present, ranks AI-focused ones first (still tie-broken by
+    live-deployment/architecture depth for the generic, non-qualified case).
+    """
+    all_projects = profile.get("projects", []) + profile.get("additional_projects", [])
+    def rank_key(p):
+        ai_score = 1 if prioritize_ai and _is_ai_focused(p) else 0
+        has_live = 1 if p.get("live_url", "").startswith("http") else 0
+        has_arch = 1 if p.get("architecture") else 0
+        return -(ai_score * 4 + has_live * 2 + has_arch)
+    return sorted(all_projects, key=rank_key)
 
 
 # FIX #24: Explicit "give me everything" phrasing only — deliberately narrower than the
@@ -344,7 +391,10 @@ def _generate_fallback_reply(user_msg: str, profile: dict) -> str:
         return "\n".join(lines)
 
     # "Top N" or specific count project request
-    top_n_match = re.search(r'top\s*(\d+)|best\s*(\d+)|(\d+)\s*(?:best|top|main|key)\s*project', user_msg_lower)
+    # FIX #27: The qualifier word (best/top/main/key) is now optional — "give me 5
+    # projects" previously didn't match at all (no qualifier between the number and
+    # "project"), silently falling through to the full 12-project listing instead.
+    top_n_match = re.search(r'top\s*(\d+)|best\s*(\d+)|(\d+)\s*(?:(?:best|top|main|key)\s+)?projects?', user_msg_lower)
     is_top_n_request = top_n_match is not None
     requested_n = None
     if top_n_match:
@@ -358,9 +408,16 @@ def _generate_fallback_reply(user_msg: str, profile: dict) -> str:
         ranked_projects = _get_ranked_projects(profile)
 
         if is_top_n_request and requested_n:
-            n = min(requested_n, len(ranked_projects))
-            lines = [f"Here are my **top {n} most impactful projects**:\n"]
-            for idx, p in enumerate(ranked_projects[:n], 1):
+            # FIX #26/#27: pool ALL projects (not just `projects`) and rank by AI
+            # relevance when the request names that domain, so "top 3 in AI/ML" can
+            # actually surface Sentinel-K8s/Forge instead of whichever projects
+            # happen to have a live demo URL.
+            prioritize_ai = _wants_ai_focused_ranking(user_msg_lower)
+            topn_pool = _get_topn_candidate_pool(profile, prioritize_ai)
+            n = min(requested_n, len(topn_pool))
+            domain_suffix = " in AI/ML/LLM" if prioritize_ai else ""
+            lines = [f"Here are my **top {n} most impactful projects{domain_suffix}**:\n"]
+            for idx, p in enumerate(topn_pool[:n], 1):
                 highlights = p.get("highlights", [])
                 arch = p.get("architecture", {})
                 lines.append(

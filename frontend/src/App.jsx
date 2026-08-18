@@ -110,7 +110,9 @@ export default function App() {
       md += `### **${sender}**:\n${msg.content}\n\n---\n\n`;
     });
 
-    const blob = new Blob([md], { type: 'text/markdown' });
+    // FIX #25: Missing charset made viewers guess the encoding (often wrong), garbling
+    // em-dashes/emoji/smart-quotes into mojibake. Explicit charset + BOM fixes it reliably.
+    const blob = new Blob(['﻿' + md], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
