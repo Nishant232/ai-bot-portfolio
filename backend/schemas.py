@@ -50,7 +50,10 @@ class ProjectItem(BaseModel):
     description: str
     tech_stack: List[str]
     github_url: str
-    live_url: str
+    # FIX #29: Was required, which forced projects with no real live demo to fake one
+    # by duplicating github_url — the bot then showed the identical link twice under
+    # "GitHub" and "Live" labels, which reads as sloppy/misleading to a recruiter.
+    live_url: Optional[str] = None
     # Rich architecture and workflow deep-dive fields
     architecture: Optional[Dict[str, Any]] = None
     workflow: Optional[Dict[str, Any]] = None

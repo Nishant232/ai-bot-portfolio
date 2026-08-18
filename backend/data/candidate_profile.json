@@ -137,7 +137,6 @@
       "description": "An automated face recognition-based attendance system designed for classrooms. Uses Python, OpenCV, and the face_recognition library to replace manual roll-call. Features a gesture-based liveness challenge (stone/paper/scissors) to prevent spoofed attendance via static photos. Stores attendance in CSV files per class.",
       "tech_stack": ["Python 3.10", "OpenCV", "face_recognition (dlib)", "JSON (student dataset storage)", "CSV (attendance logging)"],
       "github_url": "https://github.com/Nishant232/Face-Attendance-detection",
-      "live_url": "https://github.com/Nishant232/Face-Attendance-detection",
       "architecture": {
         "type": "Single-tier Python pipeline with real-time video processing loop",
         "pipeline": "Camera feed opened with OpenCV VideoCapture → each frame processed for face detection → face_recognition library computes 128-dimensional face encodings → compared against pre-stored student encodings loaded from dataset → matched student identified by roll number → liveness gesture challenge triggered → attendance logged to CSV",
@@ -163,7 +162,6 @@
       "description": "Trained a machine learning model to detect spam messages using NLP techniques. Applies text preprocessing, TF-IDF vectorization, and a classification algorithm to distinguish ham from spam messages.",
       "tech_stack": ["Python", "scikit-learn", "NLTK", "TF-IDF Vectorizer", "Naive Bayes / SVM"],
       "github_url": "https://github.com/Nishant232/message-spam-detection-project",
-      "live_url": "https://github.com/Nishant232/message-spam-detection-project",
       "architecture": {
         "type": "ML training pipeline with text preprocessing and classification",
         "pipeline": "Raw SMS dataset → text preprocessing (lowercase, stopword removal, stemming via NLTK) → TF-IDF vectorization → train/test split → classification model training (Naive Bayes/SVM) → model evaluation (accuracy, precision, recall) → saved model for inference"
@@ -209,7 +207,6 @@
       "description": "A full-stack healthcare scheduling and patient management dashboard built with React and TypeScript. Manages patient records, appointment scheduling, and doctor availability.",
       "tech_stack": ["React", "TypeScript", "Tailwind CSS"],
       "github_url": "https://github.com/Nishant232/healthcare",
-      "live_url": "https://github.com/Nishant232/healthcare",
       "highlights": [
         "Built during HackHound 3.0 (HealthBridge) as a healthcare data integration platform.",
         "Top 5 Finalist among 200+ competing teams at SRM University HackHound 3.0 (2025).",

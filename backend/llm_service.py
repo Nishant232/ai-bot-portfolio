@@ -173,7 +173,7 @@ def _get_ranked_projects(profile: dict) -> list:
     """
     projects = profile.get("projects", [])
     def rank_key(p):
-        has_live = 1 if p.get("live_url", "").startswith("http") else 0
+        has_live = 1 if (p.get("live_url") or "").startswith("http") else 0
         has_arch = 1 if p.get("architecture") else 0
         return -(has_live * 2 + has_arch)
     return sorted(projects, key=rank_key)
@@ -218,10 +218,66 @@ def _get_topn_candidate_pool(profile: dict, prioritize_ai: bool) -> list:
     all_projects = profile.get("projects", []) + profile.get("additional_projects", [])
     def rank_key(p):
         ai_score = 1 if prioritize_ai and _is_ai_focused(p) else 0
-        has_live = 1 if p.get("live_url", "").startswith("http") else 0
+        has_live = 1 if (p.get("live_url") or "").startswith("http") else 0
         has_arch = 1 if p.get("architecture") else 0
         return -(ai_score * 4 + has_live * 2 + has_arch)
     return sorted(all_projects, key=rank_key)
+
+
+_GENERIC_PROJECT_QUANTIFIERS = {
+    "all", "my", "your", "the", "total", "which", "what", "these", "those",
+    "recent", "recently", "latest", "top", "best", "main", "key", "every",
+    "each", "a", "an", "some", "any", "this", "that", "his", "her", "our",
+}
+# RAG (retrieval-augmented generation) isn't a literal string in most project data —
+# the actual implementations describe it as semantic search / embeddings / vector search.
+_KEYWORD_SYNONYMS = {
+    "rag": ["rag", "retrieval augmented generation", "retrieval-augmented generation",
+            "semantic search", "vector search", "embedding", "vector-backed", "cosine similarity"],
+}
+
+
+def _term_matches(term: str, haystack: str) -> bool:
+    """Word-boundary match — plain substring would let 'rag' false-positive inside 'storage'."""
+    return re.search(rf'\b{re.escape(term)}\b', haystack) is not None
+
+
+def _search_projects_by_keyword(user_msg_lower: str, profile: dict):
+    """
+    FIX #28: "RAG projects" / "projects using Docker" etc. were caught by the generic
+    'projects' keyword trigger below and dumped the full 12-project listing regardless
+    of the actual filter term — the filter word was silently ignored. Extracts a
+    technology/domain keyword from common phrasings and searches each project's FULL
+    text (not just the condensed fields) for it. Returns None if this doesn't look like
+    a keyword-filtered request at all (so the caller falls through to normal handling);
+    returns a (possibly empty) list of matches otherwise.
+    """
+    keyword = None
+    m = re.search(r'projects?\s+(?:using|with|involving|about|built with|that use[sd]?|in)\s+([a-z0-9\-\+\./ ]{2,40})', user_msg_lower)
+    if m:
+        keyword = m.group(1).strip()
+    else:
+        m2 = re.match(r'^([a-z0-9\-\+\./]{2,30})\s+projects?\b', user_msg_lower.strip())
+        if m2 and m2.group(1) not in _GENERIC_PROJECT_QUANTIFIERS and not m2.group(1).isdigit():
+            keyword = m2.group(1)
+
+    if not keyword:
+        return None
+
+    search_terms = _KEYWORD_SYNONYMS.get(keyword, [keyword])
+    all_projects = profile.get("projects", []) + profile.get("additional_projects", [])
+    matches = []
+    for p in all_projects:
+        haystack = " ".join([
+            p.get("title", ""), p.get("tagline", ""), p.get("description", ""),
+            " ".join(p.get("tech_stack", [])),
+            " ".join(str(v) for v in p.get("architecture", {}).values()),
+            " ".join(str(v) for v in p.get("workflow", {}).values()),
+            " ".join(p.get("highlights", [])),
+        ]).lower()
+        if any(_term_matches(term, haystack) for term in search_terms):
+            matches.append(p)
+    return matches
 
 
 # FIX #24: Explicit "give me everything" phrasing only — deliberately narrower than the
@@ -400,6 +456,30 @@ def _generate_fallback_reply(user_msg: str, profile: dict) -> str:
     if top_n_match:
         num_str = top_n_match.group(1) or top_n_match.group(2) or top_n_match.group(3)
         requested_n = int(num_str) if num_str else None
+
+    # FIX #28: Keyword-filtered project questions ("RAG projects", "projects using
+    # Docker") take priority over the generic listing branch below — otherwise the
+    # filter term gets silently ignored and every project gets dumped. Skipped for
+    # top-N requests, which already have their own AI/ML domain detection (FIX #26)
+    # and would otherwise get misread here (e.g. "top 3 projects in AI/ML" — the
+    # "projects in X" phrasing pattern below would wrongly extract "ai/ml" as a
+    # keyword instead of reaching the top-N branch).
+    if not is_top_n_request:
+        keyword_matches = _search_projects_by_keyword(user_msg_lower, profile)
+        if keyword_matches is not None:
+            if not keyword_matches:
+                return (
+                    "That's not a technology I have an explicit project for in my documented profile — "
+                    "happy to discuss related experience or adjacent work in an interview. "
+                    "Ask me to list all my projects if you'd like to see everything I've built."
+                )
+            if len(keyword_matches) == 1:
+                return _format_project_detail(keyword_matches[0])
+            lines = ["Here are the projects that match:\n"]
+            for p in keyword_matches:
+                lines.append(f"- **{p['title']}** — {p.get('tagline', '')}")
+            lines.append("\nAsk me to dive deeper into any of these!")
+            return "\n".join(lines)
 
     # Project listing question — specific-project names are already handled above by
     # _find_mentioned_project, so only generic "show me everything" phrasing lands here.
