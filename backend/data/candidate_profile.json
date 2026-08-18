@@ -1,0 +1,339 @@
+{
+  "personal_info": {
+    "name": "Nishant",
+    "title": "Software Engineer — Full Stack & AI-Driven Development",
+    "headline": "Building Scalable N-Tier Microservices, Production Full-Stack Systems & AI/LLM Integrations",
+    "bio": "Full Stack Software Engineer with hands-on experience designing N-Tier architecture applications — production backend systems, REST APIs, and AI/LLM-integrated features using Python, C++, Node.js, and modern full stack frameworks. Shipped 4 live-deployed applications and completed a 5-month production internship delivering secure, scalable microservices with CI/CD automation. Experienced applying Generative AI (LLM-based automation, AI-driven scoring) to production workflows.",
+    "email": "nishant75971@gmail.com",
+    "phone": "+91-7827177597",
+    "location": "Faridabad, Haryana, India",
+    "status": "Available for Full-Time Opportunities",
+    "social_links": {
+      "github": "https://github.com/Nishant232",
+      "linkedin": "https://linkedin.com/in/2005nishant",
+      "portfolio": "https://nishant00-portfolio.hf.space/"
+    }
+  },
+  "education": [
+    {
+      "degree": "B.Tech, CSE (Artificial Intelligence & Machine Learning)",
+      "institution": "Shri Vishwakarma Skill University",
+      "location": "Palwal, Haryana, India",
+      "period": "Oct 2022 -- Jun 2026",
+      "cgpa": "SGPA: 8.16",
+      "coursework": [
+        "Artificial Intelligence & Machine Learning",
+        "Full Stack Web Development (Delta Cert, Apna College — Dec 2025)",
+        "Data Structures & Algorithms",
+        "Database Management Systems",
+        "Software Engineering Principles",
+        "N-Tier & Microservices Architecture"
+      ]
+    }
+  ],
+  "skills": {
+    "languages": ["Python", "JavaScript (ES6+)", "TypeScript", "C++", "C", "SQL"],
+    "frameworks_and_libraries": ["React.js", "Next.js", "Node.js", "Express.js", "Socket.io", "Zustand", "Tailwind CSS", "Framer Motion", "Radix UI", "Mongoose ODM", "Zod", "Helmet"],
+    "ai_and_llm": ["LLM Integration (GPT-4o, Llama 3.1, Nemotron)", "OpenRouter AI API", "RAG & Semantic Search", "Autonomous Agents", "AI-Driven Resume Optimization", "AI Job Matching & Compatibility Scoring", "Facial Recognition (OpenCV, face_recognition dlib)", "ATS Scoring"],
+    "databases": ["PostgreSQL", "MongoDB Atlas", "Supabase (Row-Level Security)", "MySQL"],
+    "cloud_and_devops": ["AWS (EC2, S3)", "Vercel", "Railway", "Render", "Git", "GitHub Actions (CI/CD)", "Docker", "Redis (Exploring)", "Agile/Scrum", "node-cron"],
+    "security_and_testing": ["JWT Authentication", "Zod Validation", "Vitest", "Supertest", "Playwright", "RBAC (Role-Based Access Control)", "Supabase Admin SDK", "Helmet", "express-rate-limit", "Postman"],
+    "payments_and_tools": ["Razorpay", "Cloudinary", "Jira", "Confluence", "GitHub Copilot", "VS Code"],
+    "soft_skills": ["Agile/Scrum", "Technical Leadership", "System Design", "Problem Solving", "Production Security Engineering"]
+  },
+  "projects": [
+    {
+      "title": "HireFlow",
+      "tagline": "AI-Powered Job Search & Recruitment Automation Platform",
+      "description": "A full-stack job search platform that helps users track job applications, tailor resumes with AI, and generate cover letters. Integrated multiple LLMs (GPT-4o, Llama 3.1, Nemotron) via OpenRouter AI for resume optimization, job matching, and interview prep. Deployed backend on AWS EC2.",
+      "tech_stack": ["React 18", "TypeScript 5", "Vite 5", "Tailwind CSS 3", "Zustand", "Radix UI", "Recharts", "Node.js", "Express.js", "MongoDB Atlas", "Mongoose ODM v8", "Supabase JWT Auth", "OpenRouter AI (GPT-4o, Llama 3.1, Nemotron)", "Multer", "pdf-parse", "pdfmake", "Adzuna API", "Helmet", "AWS EC2"],
+      "github_url": "https://github.com/Nishant232/HireFlow",
+      "live_url": "https://nishant00-hireflow.hf.space",
+      "architecture": {
+        "type": "Microservices-style decoupled client-server architecture",
+        "frontend": "React 18 + Vite 5 SPA with Zustand for global state management, React Router 6 for routing, Supabase JS SDK for auth, Recharts for analytics dashboards",
+        "backend": "Node.js + Express.js REST API server with TypeScript, MongoDB Atlas via Mongoose ODM for data persistence, Supabase JWT verification middleware for stateless auth, OpenRouter AI integration for multi-LLM calls",
+        "ai_layer": "OpenRouter AI routes requests to GPT-4o for resume tailoring and cover letter generation, Llama 3.1 for interview question generation, Nemotron for ATS scoring. File processing pipeline: Multer handles PDF/DOCX upload, pdf-parse and Mammoth extract text, content sent to LLM with structured prompt engineering.",
+        "database": "MongoDB Atlas with Mongoose ODM — collections for users, applications, resumes, and job listings. Supabase handles authentication state and JWT issuance separately.",
+        "security": "Supabase JWT token verified on every API request. Helmet for HTTP security headers. Zod input validation on all endpoints. 12+ REST endpoints hardened with 0 auth-bypass vulnerabilities.",
+        "deployment": "Backend deployed on AWS EC2. Frontend served via HuggingFace Spaces."
+      },
+      "workflow": {
+        "resume_tailoring": "User uploads resume (PDF/DOCX) → Multer stores file → pdf-parse/Mammoth extracts text → user pastes job description → backend sends both to OpenRouter AI (GPT-4o) with ATS-optimization prompt → AI returns rewritten bullet points → frontend renders structured output with ATS score",
+        "job_tracking": "Kanban-style application pipeline — user adds job application → updates status (Applied, Interview, Offer, Rejected) → sets follow-up dates and interview notes → analytics dashboard aggregates pipeline velocity and response rates",
+        "cover_letter": "User selects job application → one-click triggers backend API → Express sends company/role context + candidate profile to GPT-4o → returns personalized cover letter → user can download or copy",
+        "job_finder": "Adzuna API fetches live listings → AI compatibility scoring compares listing requirements vs. user resume keywords → match percentage displayed per listing"
+      },
+      "highlights": [
+        "Automated resume optimization for 100% of processed applications using GPT-4o and Llama 3.1 via OpenRouter AI.",
+        "Secured 12+ MongoDB REST endpoints with 0 auth-bypass vulnerabilities using Supabase JWT verification and Zod validation.",
+        "Built Kanban-style application pipeline tracker with analytics dashboard using Recharts.",
+        "File processing pipeline: Multer → pdf-parse/Mammoth → LLM prompt → structured AI response."
+      ],
+      "hardest_challenge": "Designing a multi-model LLM routing strategy over OpenRouter API while keeping the resume tailoring latency under 5 seconds and ensuring each AI model received precisely structured prompts for deterministic output formatting."
+    },
+    {
+      "title": "GrowthHub",
+      "tagline": "Full Stack Mentor Booking & Payments Platform",
+      "description": "A full-stack web application connecting mentees with industry mentors for 1:1 paid sessions. Mentees discover mentors, book sessions, and pay securely via Razorpay. Mentors manage profiles, availability slots, sessions, and track revenue analytics.",
+      "tech_stack": ["Next.js 16", "TypeScript", "Tailwind CSS v4", "Framer Motion", "Supabase SSR Auth", "Razorpay", "Recharts", "Node.js", "Express.js", "PostgreSQL", "Supabase Admin SDK", "JWT", "Razorpay Node SDK", "node-cron", "Helmet", "express-rate-limit", "AWS S3", "Vercel", "Render"],
+      "github_url": "https://github.com/Nishant232/GrowthHub",
+      "live_url": "https://growth-hub-pink.vercel.app",
+      "architecture": {
+        "type": "Three-tier N-Tier architecture with dedicated frontend, backend, and database layers",
+        "frontend": "Next.js 16 App Router with TypeScript, Tailwind CSS v4, Framer Motion animations, Supabase SSR for authentication, Recharts for mentor revenue analytics, Razorpay JS for payment UI",
+        "backend": "Node.js + Express.js REST API with JWT route protection, Supabase Admin SDK for server-side token verification, Razorpay Node SDK for payment order creation and webhook handling, node-cron for automated cleanup of expired unpaid bookings every 5 minutes",
+        "database": "PostgreSQL via Supabase — normalized relational schema with tables for users, mentors, mentees, session_types, bookings, availability_slots, and payments. RBAC enforced at both API and database levels.",
+        "security": "CORS hardening (only allows configured frontend origin in production), rate limiting (100 requests per 15 minutes per IP via express-rate-limit), Helmet HTTP security headers, JWT verification on all protected routes",
+        "payment_flow": "Razorpay payment order created server-side → Razorpay JS renders payment modal on frontend → user completes payment → Razorpay sends webhook to backend → webhook signature verified server-side → booking status updated to confirmed in PostgreSQL → mentor receives booking notification",
+        "deployment": "Frontend on Vercel (Next.js edge-optimized), Backend on Render, Database and Auth on Supabase"
+      },
+      "workflow": {
+        "booking_flow": "Mentee browses mentors → views profile, expertise, hourly rate → selects session type and available time slot → Razorpay payment order created on backend → mentee pays → Razorpay webhook confirms payment → booking confirmed in PostgreSQL → both mentor and mentee see booking in dashboard",
+        "mentor_onboarding": "Mentor signs up → completes profile wizard (bio, expertise, experience, hourly rate) → creates session types (title, duration, price) → sets weekly availability schedule → profile goes live for discovery",
+        "automated_cleanup": "node-cron job runs every 5 minutes → queries bookings with status=pending and expiry time < now → deletes expired unpaid bookings → releases time slots back to availability pool"
+      },
+      "highlights": [
+        "Enabled paid bookings with 100% payment success rate in testing using Razorpay webhooks.",
+        "Designed normalized PostgreSQL schema with zero-downtime CI/CD deployments on Vercel.",
+        "RBAC system: mentor/mentee/admin roles enforced at API middleware and database level.",
+        "Automated cleanup of expired unpaid bookings every 5 minutes via node-cron."
+      ],
+      "hardest_challenge": "Ensuring concurrency-safe payment state synchronization between Razorpay webhook callbacks and PostgreSQL database transactions — handling race conditions where duplicate webhook events could create duplicate bookings."
+    },
+    {
+      "title": "SyncScribe",
+      "tagline": "Real-Time Collaborative Document Editing Engine",
+      "description": "A production-ready full-stack real-time collaborative document editor. Multiple users edit the same document simultaneously — watching each other's cursors move and text appear character-by-character, with zero page refreshes. Built on three-tier architecture with Socket.io WebSockets for instant peer broadcast and PostgreSQL Row-Level Security for permission enforcement.",
+      "tech_stack": ["Next.js 14.0.4", "TypeScript 5.3.3", "React 18.2", "Tailwind CSS 3.3.6", "Zustand 4.4.7", "Socket.io Client 4.7.2", "Supabase.js SSR 2.39.0", "Axios", "Lodash (debounce)", "Lucide React", "date-fns", "Node.js 18+", "Express 4.18.2", "Socket.io 4.7.2", "Supabase Admin SDK 2.39.0", "express-rate-limit", "Vercel", "Railway"],
+      "github_url": "https://github.com/Nishant232/SyncScribe",
+      "live_url": "https://nishant00-syncscribe.hf.space/",
+      "architecture": {
+        "type": "Three-tier architecture: Next.js frontend (Vercel) → Express + Socket.io backend (Railway) → Supabase PostgreSQL with Row-Level Security",
+        "frontend": "Next.js 14 App Router with Server Components for SSR/auth guard and Client Components for Editor, Dashboard, and real-time UI. Zustand store manages currentDocument, content, isSaving, onlineUsers, cursors, typingUsers, and isConnected state. Axios with Bearer JWT auto-attach for REST calls. Socket.io Client with max 5 reconnection retries for WebSocket connection.",
+        "backend": "Express.js HTTP server and Socket.io WebSocket server running on port 5000. Supabase Admin SDK verifies JWT on every HTTP request and socket connection. Socket.io manages document rooms — users join/leave rooms, broadcast content changes and cursor positions.",
+        "realtime_engine": "User keystroke → Socket.io emit 'doc:update' event → backend broadcasts to all users in document room → other users' Zustand stores update in real-time → 500ms Lodash debounce triggers Supabase PostgreSQL write to persist changes",
+        "database": "Supabase PostgreSQL with Row-Level Security (RLS) policies enforcing owner/editor/viewer permissions at database row level — zero permission leaks possible even with direct database access",
+        "auth_flow": "Supabase Auth issues JWT on login → JWT attached to all Axios REST requests (Bearer header) and Socket.io connection handshake → Express middleware verifies JWT with Supabase Admin SDK on every request",
+        "permissions": "3-tier permission model: owner (full CRUD), editor (read/write document content), viewer (read-only). 64-character hex invite tokens generated per-document with role assigned. Permissions enforced via PostgreSQL RLS policies.",
+        "deployment": "Frontend on Vercel (Next.js edge-optimized), Backend Node.js container on Railway, Database/Auth on Supabase"
+      },
+      "workflow": {
+        "editing_flow": "User opens document → Socket.io connects to backend room → Supabase JWT verified → user sees live cursors of all editors → types in editor → 'doc:update' event emitted → backend broadcasts to room → 500ms debounce → PostgreSQL auto-save",
+        "sharing_flow": "Owner generates share link → 64-char hex token created → invite stored in DB with role (editor/viewer) → recipient opens link → Supabase Auth required → token validated → user added to document_users with assigned role → RLS policies enforce permissions",
+        "cursor_tracking": "User moves cursor → 'cursor:move' socket event emitted with position and user color → backend broadcasts to all room members → other users see color-coded cursor labels with floating name tags"
+      },
+      "highlights": [
+        "Achieved sub-50ms broadcast latency for real-time document keystroke syncing via Socket.io WebSockets.",
+        "Enforced 3-tier permissions (owner/editor/viewer) with 0 permission leaks using PostgreSQL Row-Level Security.",
+        "500ms Lodash debounce balances real-time responsiveness with PostgreSQL write load.",
+        "Socket.io rooms architecture — each document has its own isolated WebSocket room."
+      ],
+      "hardest_challenge": "Resolving Operational Transformation conflict edges over Socket.io WebSockets — when two users type simultaneously, ensuring their edits are merged correctly without one overwriting the other, while maintaining Supabase Row-Level Security rules."
+    },
+    {
+      "title": "Face Attendance Detection System",
+      "tagline": "Real-Time Facial Recognition Attendance System with Liveness Detection",
+      "description": "An automated face recognition-based attendance system designed for classrooms. Uses Python, OpenCV, and the face_recognition library to replace manual roll-call. Features a gesture-based liveness challenge (stone/paper/scissors) to prevent spoofed attendance via static photos. Stores attendance in CSV files per class.",
+      "tech_stack": ["Python 3.10", "OpenCV", "face_recognition (dlib)", "JSON (student dataset storage)", "CSV (attendance logging)"],
+      "github_url": "https://github.com/Nishant232/Face-Attendance-detection",
+      "live_url": "https://github.com/Nishant232/Face-Attendance-detection",
+      "architecture": {
+        "type": "Single-tier Python pipeline with real-time video processing loop",
+        "pipeline": "Camera feed opened with OpenCV VideoCapture → each frame processed for face detection → face_recognition library computes 128-dimensional face encodings → compared against pre-stored student encodings loaded from dataset → matched student identified by roll number → liveness gesture challenge triggered → attendance logged to CSV",
+        "dataset": "Student images stored in Class_Name/New_Faces/ folder, named by roll number. JSON file stores mapping of roll numbers to face encodings computed at dataset creation time.",
+        "liveness_detection": "After face is recognized, system randomly selects a gesture (stone, paper, or scissors) and displays it on screen. Student must perform the gesture to confirm they are physically present. MediaPipe or OpenCV contour analysis validates the gesture before marking attendance. Prevents photo spoofing attacks.",
+        "storage": "Attendance logged to Class_Name/attendance.csv with timestamp, roll number, and name columns. JSON dataset stores pre-computed face encodings to avoid re-processing images on each run."
+      },
+      "workflow": {
+        "setup": "Capture student images → store in Class_Name/New_Faces/ with roll number filename → run dataset creation script → face_recognition computes 128D encodings for each image → encodings saved to JSON",
+        "attendance": "Teacher starts attendance session → OpenCV opens camera → live video frame captured → faces detected in frame → face encodings computed → compared to known encodings using face_recognition.compare_faces() → matched student identified → random gesture displayed → student performs gesture → gesture validated → attendance marked in CSV"
+      },
+      "highlights": [
+        "Gesture-based liveness detection challenge (stone/paper/scissors) prevents static photo spoofing.",
+        "face_recognition library (dlib) computes 128-dimensional face embeddings for high-accuracy recognition.",
+        "Real-time video frame processing loop using OpenCV VideoCapture.",
+        "Dataset creation script pre-computes encodings to optimize runtime performance."
+      ],
+      "hardest_challenge": "Minimizing face embedding calculation latency per frame in the OpenCV video loop while simultaneously running gesture recognition — balancing accuracy with real-time performance on standard laptop hardware without GPU acceleration."
+    },
+    {
+      "title": "Message Spam Detection",
+      "tagline": "ML-Based Text Spam Classifier (NLP)",
+      "description": "Trained a machine learning model to detect spam messages using NLP techniques. Applies text preprocessing, TF-IDF vectorization, and a classification algorithm to distinguish ham from spam messages.",
+      "tech_stack": ["Python", "scikit-learn", "NLTK", "TF-IDF Vectorizer", "Naive Bayes / SVM"],
+      "github_url": "https://github.com/Nishant232/message-spam-detection-project",
+      "live_url": "https://github.com/Nishant232/message-spam-detection-project",
+      "architecture": {
+        "type": "ML training pipeline with text preprocessing and classification",
+        "pipeline": "Raw SMS dataset → text preprocessing (lowercase, stopword removal, stemming via NLTK) → TF-IDF vectorization → train/test split → classification model training (Naive Bayes/SVM) → model evaluation (accuracy, precision, recall) → saved model for inference"
+      },
+      "highlights": [
+        "Applied NLP preprocessing pipeline: tokenization, stopword removal, stemming.",
+        "TF-IDF vectorization converts text to numerical feature vectors for ML model.",
+        "Trained on SMS spam dataset achieving high precision and recall."
+      ],
+      "hardest_challenge": "Handling class imbalance between spam and ham messages without overfitting the classifier to the majority class."
+    },
+    {
+      "title": "Trikoli Bytes",
+      "tagline": "Full-Stack Food Ordering Platform with Multi-Role Admin & RBAC",
+      "description": "A full-stack food ordering web application with a customer storefront, real-time order tracking, coupon system, and a multi-role admin dashboard. Backed entirely by Supabase (PostgreSQL, Auth, Storage) with an 11-file migration-driven schema and a self-service super_admin bootstrap flow.",
+      "tech_stack": ["React 18", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "Radix UI", "TanStack React Query", "React Context", "Supabase (PostgreSQL, Auth, Storage)", "Vitest", "React Testing Library", "Playwright"],
+      "github_url": "https://github.com/Nishant232/Trikoli-bytes",
+      "live_url": "https://nishant232.github.io/Trikoli-bytes/",
+      "architecture": {
+        "type": "Client-heavy full-stack architecture — React SPA backed directly by Supabase (BaaS) for auth, database, and storage, with SQL migration-driven schema management instead of a separate Node backend",
+        "frontend": "React 18 + Vite + TypeScript SPA using shadcn/ui + Radix UI + Tailwind CSS for components, TanStack React Query for server state, React Context for Auth/Cart state, and ProtectedRoute/AdminRoute components for role-gated routing",
+        "backend": "Supabase as backend-as-a-service — PostgreSQL with Row-Level Security, Supabase Auth (email/password + email verification), and a public 'food-images' Storage bucket. Business logic (order placement, coupon enforcement, admin bootstrap) lives in Postgres SQL functions rather than an application server.",
+        "database": "11 ordered SQL migrations evolve the schema: core tables (profiles, user_roles, reviews, coupons, orders, order_items) → menu_items + storage bucket → 4-tier role enum → RLS policy hardening → place_order/coupon-enforcement functions → user-management helpers → auth security polish",
+        "security": "4-tier RBAC (super_admin > admin/manager > staff > customer) enforced entirely via PostgreSQL RLS policies. First super_admin is claimed through a one-time bootstrap_first_super_admin() flow that self-disables after use — no manual DB seeding required.",
+        "deployment": "Static SPA deployable to Vercel, Netlify, or any static host; currently live on GitHub Pages"
+      },
+      "workflow": {
+        "ordering_flow": "Customer browses menu → adds items to cart (CartContext) → applies coupon code (validated server-side) → places order → place_order SQL function processes the order and enforces coupon rules atomically → customer sees a real-time order status timeline",
+        "admin_flow": "Admin/staff logs in at /admin/login → role-gated dashboard shows menu management, order management, and coupon management → super_admin additionally sees user role management and revenue/analytics with date-range filters",
+        "bootstrap_flow": "Fresh deployment has zero admins → first signed-up user sees a 'Claim super admin' button, shown only while no super_admin exists → clicking runs bootstrap_first_super_admin() → button disappears permanently once claimed"
+      },
+      "highlights": [
+        "Migration-driven PostgreSQL schema (11 ordered SQL files) enforcing 4-tier RBAC entirely through Row-Level Security policies.",
+        "Self-bootstrapping admin system — first super_admin claimed via a one-time, self-disabling flow with no manual DB seeding.",
+        "Test coverage across the stack: Vitest + React Testing Library for units, Playwright for end-to-end order flows.",
+        "Supabase Storage-backed image pipeline for menu items with public-read / admin-only-write RLS policies."
+      ],
+      "hardest_challenge": "Enforcing multi-tier RBAC purely at the database level via PostgreSQL Row-Level Security instead of application middleware, while still providing a safe, self-service bootstrap path for the very first super_admin on a fresh deployment without leaving a permanent privilege-escalation hole."
+    },
+    {
+      "title": "Healthcare Scheduling Dashboard",
+      "tagline": "Full-Stack Healthcare Patient Management System",
+      "description": "A full-stack healthcare scheduling and patient management dashboard built with React and TypeScript. Manages patient records, appointment scheduling, and doctor availability.",
+      "tech_stack": ["React", "TypeScript", "Tailwind CSS"],
+      "github_url": "https://github.com/Nishant232/healthcare",
+      "live_url": "https://github.com/Nishant232/healthcare",
+      "highlights": [
+        "Built during HackHound 3.0 (HealthBridge) as a healthcare data integration platform.",
+        "Top 5 Finalist among 200+ competing teams at SRM University HackHound 3.0 (2025).",
+        "React + TypeScript full-stack scheduling system."
+      ],
+      "hardest_challenge": "Designing a scheduling system that handles conflicting doctor availability slots and patient appointment overlaps in real-time."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Engineer Intern",
+      "company": "Code Codence Private Limited",
+      "location": "On-site, New Delhi",
+      "period": "Feb 2026 -- Jul 2026",
+      "responsibilities": [
+        "Shipped 2 production applications with zero critical bugs post-launch, leading backend architecture across a 4-engineer Agile team using Git feature branches and sprint cycles.",
+        "Engineered a 4-tier RBAC system (JWT + bcrypt) reducing unauthorized access to zero across Admin, Manager, Staff, and Customer roles in production.",
+        "Built a real-time booking engine (Node.js/Express) with atomic SQL transactions and concurrency-safe validation, reaching 92% test coverage (Vitest + Supertest).",
+        "Hardened 12+ REST API endpoints (Helmet, rate-limiting, Zod) with 0 security incidents; automated deployments via CI/CD on Vercel."
+      ],
+      "achievements": "Shipped 2 production apps with zero critical post-launch bugs and achieved 92% test coverage across core backend microservices. Led 4-tier RBAC implementation eliminating all unauthorized access incidents.",
+      "tech_used": ["Node.js", "Express.js", "JWT", "bcrypt", "SQL (atomic transactions)", "Vitest", "Supertest", "Helmet", "express-rate-limit", "Zod", "Git", "GitHub Actions", "CI/CD", "Vercel", "Agile/Scrum"]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Delta Full Stack Web Development",
+      "issuer": "Apna College",
+      "date": "Dec 2025",
+      "credential_url": "https://github.com/Nishant232"
+    }
+  ],
+  "achievements": [
+    "Top 5 Finalist -- HackHound 3.0, SRM University (2025): Built HealthBridge, a healthcare data integration platform, competing against 200+ teams.",
+    "Co-Organizer -- Smart India Hackathon (Internal): Coordinated 50+ participants across team formation and event logistics."
+  ],
+  "additional_projects": [
+    {
+      "title": "Forge",
+      "tagline": "Local AI Coding Agent — Fully Private, Runs on Ollama (No Cloud)",
+      "description": "A local AI coding agent powered by Ollama that autonomously reads, edits, runs, and tests code through a ReAct (Reason + Act) loop — like Claude Code but fully private with no API keys or subscriptions. Uses qwen2.5:14b as the default LLM.",
+      "tech_stack": ["Python 3.11+", "Ollama (qwen2.5:14b)", "FastAPI", "SQLite", "asyncio", "LangChain (ChatOllama)", "ripgrep", "ruff", "mypy", "pytest"],
+      "github_url": "https://github.com/Nishant232/forge",
+      "architecture": {
+        "type": "Local ReAct (Reason + Act) agentic loop with parallel tool dispatch and episodic memory",
+        "core_loop": "cli.py → core/loop.py:run_turn() → ChatOllama LLM (streaming) → tool calls dispatched concurrently via asyncio.gather() → results fed back → loop again (max 40 iterations)",
+        "memory": "SQLite-backed conversation history + cosine-similarity episodic memory for retrieving similar past tasks",
+        "tools": "21 tools registered: file read/write/edit, shell execution (sandboxed), ripgrep code search, pytest test runner, git operations, web fetch, sub-agent spawning, and a per-session TODO list",
+        "safety": "Path sandboxing (all file ops restricted to AGENT_PROJECT_ROOT), trust modes (auto/manual), allowlists for shell commands",
+        "post_edit_verification": "After each code edit, automatically runs ruff (Python linting), mypy (type checking), pytest — if any fail, loops back with error feedback (max 2 retries)",
+        "streaming": "model.astream() streams tokens to terminal live; falls back to model.ainvoke() if streaming not supported"
+      }
+    },
+    {
+      "title": "ERA-AI",
+      "tagline": "Voice-Controlled Personal AI Assistant",
+      "description": "A Python voice-controlled assistant that performs system operations, web searches, and automation tasks via spoken commands. Built with speech recognition and text-to-speech. Can open/close applications, control volume, take screenshots, search Google/YouTube/Wikipedia, send WhatsApp messages, fetch news, and more.",
+      "tech_stack": ["Python", "SpeechRecognition", "pyttsx3 (TTS)", "PyAutoGUI", "webbrowser", "pywhatkit (WhatsApp)", "wikipedia", "requests"],
+      "github_url": "https://github.com/Nishant232/ERA-AI",
+      "architecture": {
+        "type": "Single-tier command-dispatch pipeline with voice I/O layer",
+        "pipeline": "Microphone audio captured via SpeechRecognition → Google Speech API transcribes audio to text → command parsed by keyword matching → dispatched to appropriate handler module → pyttsx3 speaks response back to user",
+        "capabilities": "System control (launch/close apps, shutdown/restart, volume, screenshots, folder management), Web utilities (Google, YouTube, Wikipedia search, website navigation, IP lookup), Entertainment (news, jokes, advice, book reading), Calculations, Location services, WhatsApp messaging"
+      }
+    },
+    {
+      "title": "Healthbridge",
+      "tagline": "Hackathon Project — Cloud Health Records Platform (HackHound 3.0, Top 5 Finalist)",
+      "description": "A secure, centralized cloud platform for patients, doctors, and healthcare organizations to store, access, and share health records globally using unique patient IDs. Built collaboratively by team 'Code Breakers' (5 members). Achieved Top 5 Finalist placement out of 200+ teams at HackHound 3.0, SRM University.",
+      "tech_stack": ["Python", "HTML/CSS", "Flask (implied)", "SQLite / local storage"],
+      "github_url": "https://github.com/Nishant232/Healthbridge",
+      "architecture": {
+        "type": "Role-based cloud health records system",
+        "roles": "3 roles: Patients (view/share records via unique ID), Doctors (access patient data, update prescriptions), Organizations (monitor aggregated health trends, upload medical reports)",
+        "hackathon_context": "Built during HackHound 3.0 at SRM University (2025) under 24-hour time constraint. Team: Code Breakers (Nishant as one of 5 contributors). Placed Top 5 among 200+ competing teams."
+      }
+    },
+    {
+      "title": "Sentinel-K8s",
+      "tagline": "Autonomous Self-Healing DevSecOps Platform for Kubernetes",
+      "description": "An AI-powered, closed-loop DevSecOps platform that autonomously detects, diagnoses, and remediates Kubernetes failures. Uses a local Sentence Transformers embedding model for semantic incident memory, retrieving prior fixes by meaning rather than keyword matching, then executes remediation playbooks — closing the loop between monitoring, diagnosis, decision-making, and recovery without human intervention.",
+      "tech_stack": ["Python 3.10+", "Kubernetes (K3s)", "Sentence Transformers (all-MiniLM-L6-v2)", "SQLite", "NumPy", "Prometheus", "Grafana", "Wazuh SIEM", "Docker", "Cosine Similarity Search"],
+      "github_url": "https://github.com/Nishant232/sentinel-k8s",
+      "architecture": {
+        "type": "Local, closed-loop AI DevSecOps agent — monitors a Kubernetes cluster, diagnoses failures via semantic search over a vector-backed incident memory, and autonomously executes remediation playbooks",
+        "core_loop": "memory_commander.py (the 'Cloud Commander') runs a continuous monitoring loop, scanning the K3s cluster every 30 seconds via kubectl, detecting unhealthy pods, and collecting container logs for diagnosis",
+        "memory": "incident_memory.py embeds logs locally using Sentence Transformers (all-MiniLM-L6-v2) and stores/searches them in SQLite via cosine similarity — no external vector database required. Matches failures by semantic meaning even when log text differs from past incidents.",
+        "remediation": "playbook_engine.py matches a detected failure to a known incident and executes a predefined kubectl remediation (restart pod, recover OOMKilled workloads, reload ConfigMaps, restart CoreDNS). Unmatched failures trigger AI-assisted root cause analysis, and the new incident plus its resolution is stored back into memory so the system improves with every recovery.",
+        "observability": "Integrates Prometheus + Grafana for cluster metrics/dashboards and Wazuh SIEM for security event visibility, feeding failure detection beyond basic pod-status checks.",
+        "deployment": "Runs entirely on a local/on-prem machine (K3s cluster + Python agent) with no cloud dependency — a lightweight, self-hosted alternative to commercial AIOps platforms."
+      },
+      "workflow": {
+        "detection_loop": "Cluster monitored every 30 seconds → failed or unhealthy pod found → container logs collected",
+        "diagnosis": "Logs embedded via Sentence Transformers → cosine similarity search against SQLite incident memory → a match routes straight to remediation; no match triggers AI root cause analysis and the new incident is stored for future matching",
+        "remediation": "Matched incident → playbook_engine selects and executes the mapped kubectl remediation → outcome logged → knowledge base updated regardless of the match/no-match path"
+      },
+      "highlights": [
+        "Closed-loop autonomous remediation for Kubernetes failures (OOMKilled, CrashLoopBackOff, ImagePullBackOff, ConfigMap conflicts) with zero human intervention.",
+        "Semantic incident memory using local Sentence Transformers embeddings + SQLite cosine similarity — retrieves prior fixes by meaning, not keyword matching.",
+        "Fully local/private AI pipeline — no external API keys, vector DB, or cloud service required.",
+        "Integrated observability stack (Prometheus, Grafana, Wazuh SIEM) feeding a single autonomous decision loop."
+      ],
+      "hardest_challenge": "Designing a remediation engine safe to run autonomously against a live cluster — matching failures to the correct playbook via semantic similarity had to be conservative enough to avoid mis-triggering destructive actions (e.g. restarting the wrong deployment) while still generalizing across log messages that differ from the originally stored incident."
+    },
+    {
+      "title": "Optimal EV Charging Stations",
+      "tagline": "ML Optimization for Electric Vehicle Charging Station Placement",
+      "description": "A tool for planning, optimizing, and evaluating placement and capacity of EV charging stations using heuristic and metaheuristic optimization algorithms. Supports multiple algorithms to minimize cost, travel distance, and maximize coverage for city planners and utility companies.",
+      "tech_stack": ["Python", "Flask", "HTML templates", "Genetic Algorithm", "Particle Swarm Optimization", "CSV data handling"],
+      "github_url": "https://github.com/Nishant232/Optimal-EV-Charging-Stations",
+      "architecture": {
+        "type": "Optimization pipeline with Flask web interface for interactive parameter selection",
+        "algorithms": "Genetic Algorithm for evolutionary optimization of station placement, Particle Swarm Optimization (PSO) for global search, custom heuristic distance models",
+        "pipeline": "Input location demand data (CSV) → run optimization algorithm → compute virtual distances and trade-offs (number of stations vs. user access) → output best_evcs.py configurations → visualize results in Flask web UI",
+        "modules": "virtual_distance.py (distance model), evsc_optimization.py (optimization core), capacity.py (capacity planning), clustering.py (demand clustering), app.py (Flask web server)"
+      }
+    }
+  ],
+
+  "faq_and_insights": {
+    "why_hire_me": "I bring hands-on experience building production N-Tier microservices, LLM integrations (GPT-4o, Llama 3.1), and zero-downtime full-stack applications. With a 5-month production internship shipping live apps with 92% test coverage, hackathon-proven problem solving (Top 5 in HackHound 3.0 among 200+ teams), and deep expertise in secure API design — I deliver reliable, scalable, and secure software fast.",
+    "hardest_technical_problem": "In SyncScribe, resolving real-time Operational Transformation conflicts over Socket.io WebSockets — when two users type simultaneously at the same cursor position, ensuring correct merge without overwriting. In HireFlow, designing a multi-model LLM routing strategy across GPT-4o/Llama 3.1/Nemotron with deterministic prompt formatting while keeping resume tailoring latency under 5 seconds.",
+    "work_style": "Agile, proactive, and quality-driven. I thrive in sprint cycles with Git feature branches, write high-coverage unit tests (Vitest, Supertest), and take full ownership from system design to CI/CD deployment.",
+    "career_goals": "To build high-impact Full-Stack & Generative AI systems as a Software Engineer and contribute to innovative scalable products that solve real user problems.",
+    "technical_interests": "Real-time systems, distributed architecture, AI/LLM integrations, secure API design, and developer tooling."
+  }
+}
