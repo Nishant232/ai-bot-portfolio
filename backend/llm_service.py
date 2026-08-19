@@ -369,9 +369,9 @@ def _format_project_detail(p: dict) -> str:
         lines.append(f"\n**Hardest Challenge**: {p['hardest_challenge']}")
 
     if p.get("github_url"):
-        lines.append(f"\n🔗 GitHub: {p['github_url']}")
+        lines.append(f"\nGitHub: {p['github_url']}")
     if p.get("live_url"):
-        lines.append(f"🌐 Live: {p['live_url']}")
+        lines.append(f"Live Demo: {p['live_url']}")
 
     return "\n".join(lines)
 
@@ -510,9 +510,9 @@ def _generate_fallback_reply(user_msg: str, profile: dict) -> str:
                     lines.append(f"**Key Achievement**: {highlights[0]}\n")
                 if arch.get("deployment"):
                     lines.append(f"**Deployed**: {arch['deployment']}\n")
-                lines.append(f"🔗 GitHub: {p['github_url']}\n")
+                lines.append(f"GitHub: {p['github_url']}\n")
                 if p.get("live_url"):
-                    lines.append(f"🌐 Live: {p['live_url']}\n")
+                    lines.append(f"Live Demo: {p['live_url']}\n")
                 lines.append("---")
             lines.append("\nWant me to deep-dive into the architecture or workflow of any of these?")
             return "\n".join(lines)
@@ -520,7 +520,7 @@ def _generate_fallback_reply(user_msg: str, profile: dict) -> str:
         # Full listing — all projects
         all_projects = ranked_projects + profile.get("additional_projects", [])
         lines = [f"I have built **{len(all_projects)} projects** across full-stack, AI, ML, and systems domains:\n"]
-        lines.append("**🏆 Main Projects (Production / Deployed):**")
+        lines.append("**Main Projects (Production / Deployed):**")
         for idx, p in enumerate(ranked_projects, 1):
             lines.append(
                 f"{idx}. **{p['title']}** — *{p['tagline']}*\n"
@@ -611,12 +611,12 @@ def _generate_fallback_reply(user_msg: str, profile: dict) -> str:
         f"Hello! I'm the AI Representative for **{name}** — *{title}*.\n\n"
         f"{p_info.get('bio', '')}\n\n"
         f"You can ask me about:\n"
-        f"- 🏗️ **Project Architecture & Workflows** — {total_projects} projects total\n"
-        f"- 🛠️ **Technical Skills & Stack**\n"
-        f"- 💼 **Work Experience & Internship**\n"
-        f"- 🎓 **Education & Certifications**\n"
-        f"- 🏆 **Achievements & Hackathons**\n"
-        f"- 📋 **Paste a Job Description** to get a Suitability Score!"
+        f"- **Project Architecture & Workflows** — {total_projects} projects total\n"
+        f"- **Technical Skills & Stack**\n"
+        f"- **Work Experience & Internship**\n"
+        f"- **Education & Certifications**\n"
+        f"- **Achievements & Hackathons**\n"
+        f"- **Paste a Job Description** to get a Suitability Score"
     )
 
 

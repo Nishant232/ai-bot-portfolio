@@ -1,14 +1,22 @@
 import React from 'react';
-import { 
-  Bot, 
-  Github, 
-  Linkedin, 
-  Globe, 
-  FileText, 
-  Sparkles, 
-  Sun, 
+import {
+  Github,
+  Linkedin,
+  Globe,
+  FileText,
+  Sparkles,
+  Sun,
   Moon
 } from 'lucide-react';
+
+// Typographic initials mark instead of a generic robot icon — reads as a
+// considered personal brand mark rather than a templated AI-chat cliché.
+function getInitials(name) {
+  const parts = (name || 'N').trim().split(/\s+/);
+  return parts.length > 1
+    ? (parts[0][0] + parts[1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
 
 export default function Header({ profile, onOpenJDModal, onOpenProfileModal, theme, toggleTheme }) {
   const pInfo = profile?.personal_info || {};
@@ -28,24 +36,33 @@ export default function Header({ profile, onOpenJDModal, onOpenProfileModal, the
         {/* Left: Avatar + Name + Badge + Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
           <div style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: 'var(--accent-gradient)',
+            width: '44px',
+            height: '44px',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--bg-dark)',
+            border: '1px solid var(--border-color)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#fff',
-            boxShadow: 'var(--accent-glow)',
+            color: 'var(--accent-primary)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.15rem',
+            fontWeight: 600,
             flexShrink: 0
           }}>
-            <Bot size={26} />
+            {getInitials(pInfo.name)}
           </div>
 
           <div style={{ minWidth: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <h1 style={{ fontSize: '1.15rem', fontWeight: 700, margin: 0, whiteSpace: 'nowrap' }}>
-                {pInfo.name || 'Nishant'} AI
+              <h1 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.25rem',
+                fontWeight: 600,
+                margin: 0,
+                whiteSpace: 'nowrap'
+              }}>
+                {pInfo.name || 'Nishant'} <span style={{ color: 'var(--accent-primary)' }}>AI</span>
               </h1>
               <span className="pulse-badge" style={{ fontSize: '0.7rem' }}>
                 <span className="pulse-dot"></span>

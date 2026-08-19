@@ -73,14 +73,15 @@ export default function JDAnalyzerModal({ isOpen, onClose, candidateName }) {
             <div style={{
               width: '36px',
               height: '36px',
-              borderRadius: '50%',
-              background: 'var(--accent-gradient)',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--bg-input)',
+              border: '1px solid var(--border-color)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#fff'
+              color: 'var(--accent-primary)'
             }}>
-              <Sparkles size={20} />
+              <Sparkles size={18} />
             </div>
             <div>
               <h3 id="jd-modal-title" style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>

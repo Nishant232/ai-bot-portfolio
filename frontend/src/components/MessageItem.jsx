@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; // FIX #30: without this, GFM tables render as raw "|---|" text
 import rehypeSanitize from 'rehype-sanitize'; // FIX #8: Sanitize markdown output
-import { Bot, User, Copy, Check, Volume2, VolumeX } from 'lucide-react';
+import { User, Copy, Check, Volume2, VolumeX } from 'lucide-react';
+
+function getInitials(name) {
+  const parts = (name || 'N').trim().split(/\s+/);
+  return parts.length > 1
+    ? (parts[0][0] + parts[1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
 
 /**
  * FIX #9: Strip markdown syntax before passing to TTS so the browser
@@ -71,20 +79,24 @@ export default function MessageItem({ message, candidateName }) {
       marginBottom: '20px',
       flexDirection: isUser ? 'row-reverse' : 'row'
     }}>
-      {/* Avatar */}
+      {/* Avatar — typographic initials for the assistant instead of a generic bot
+          icon; keeps the personal-brand mark consistent with the header. */}
       <div style={{
-        width: '36px',
-        height: '36px',
-        borderRadius: '50%',
-        background: isUser ? 'var(--user-msg-bg)' : 'var(--accent-gradient)',
+        width: '34px',
+        height: '34px',
+        borderRadius: 'var(--radius-md)',
+        background: isUser ? 'var(--bg-card-hover)' : 'var(--bg-input)',
+        border: '1px solid var(--border-color)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#fff',
-        flexShrink: 0,
-        boxShadow: isUser ? 'none' : 'var(--accent-glow)'
+        color: isUser ? 'var(--text-secondary)' : 'var(--accent-primary)',
+        fontFamily: isUser ? 'inherit' : 'var(--font-display)',
+        fontSize: isUser ? undefined : '0.9rem',
+        fontWeight: 600,
+        flexShrink: 0
       }}>
-        {isUser ? <User size={18} /> : <Bot size={18} />}
+        {isUser ? <User size={16} /> : getInitials(candidateName)}
       </div>
 
       {/* Message Bubble & Actions */}
@@ -101,7 +113,7 @@ export default function MessageItem({ message, candidateName }) {
           marginBottom: '4px',
           padding: '0 4px'
         }}>
-          {isUser ? 'Recruiter' : `${candidateName || 'AI Agent'} (AI Agent)`}
+          {isUser ? 'Recruiter' : `${candidateName || 'AI'} — AI Representative`}
         </span>
 
         {/* Content Box */}
@@ -109,11 +121,11 @@ export default function MessageItem({ message, candidateName }) {
           padding: '14px 18px',
           borderRadius: isUser ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
           background: isUser ? 'var(--user-msg-bg)' : 'var(--assistant-msg-bg)',
-          color: isUser ? '#ffffff' : 'var(--text-primary)',
+          color: isUser ? 'var(--user-msg-text)' : 'var(--text-primary)',
           border: isUser ? 'none' : '1px solid var(--border-color)',
           fontSize: '0.95rem',
           lineHeight: '1.6',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)',
           position: 'relative'
         }}>
           {isUser ? (
@@ -122,6 +134,7 @@ export default function MessageItem({ message, candidateName }) {
             /* FIX #8: rehype-sanitize prevents XSS from malicious LLM-generated links */
             <ReactMarkdown
               className="markdown-body"
+              remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeSanitize]}
             >
               {message.content}

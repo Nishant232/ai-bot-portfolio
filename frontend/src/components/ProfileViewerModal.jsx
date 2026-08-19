@@ -200,8 +200,8 @@ export default function ProfileViewerModal({ isOpen, onClose, profile }) {
                           {p.tech_stack.map((tech, i) => (
                             <span key={i} style={{
                               padding: '2px 8px',
-                              background: 'rgba(99, 102, 241, 0.15)',
-                              border: '1px solid rgba(99, 102, 241, 0.3)',
+                              background: 'rgba(var(--accent-rgb), 0.12)',
+                              border: '1px solid rgba(var(--accent-rgb), 0.3)',
                               borderRadius: '999px',
                               fontSize: '0.75rem',
                               color: 'var(--accent-primary)'

@@ -1,7 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import MessageItem from './MessageItem';
 import QuickPrompts from './QuickPrompts';
-import { Sparkles, Bot } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+
+function getInitials(name) {
+  const parts = (name || 'N').trim().split(/\s+/);
+  return parts.length > 1
+    ? (parts[0][0] + parts[1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
 
 export default function ChatBox({ messages, isStreaming, profile, onSelectPrompt }) {
   const bottomRef = useRef(null);
@@ -39,22 +46,30 @@ export default function ChatBox({ messages, isStreaming, profile, onSelectPrompt
             padding: '20px'
           }}>
             <div style={{
-              width: '64px',
-              height: '64px',
-              borderRadius: '50%',
-              background: 'var(--accent-gradient)',
+              width: '60px',
+              height: '60px',
+              borderRadius: 'var(--radius-lg)',
+              background: 'var(--bg-input)',
+              border: '1px solid var(--border-color)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#fff',
-              marginBottom: '16px',
-              boxShadow: 'var(--accent-glow)'
+              color: 'var(--accent-primary)',
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.5rem',
+              fontWeight: 600,
+              marginBottom: '18px'
             }}>
-              <Bot size={36} />
+              {getInitials(candidateName)}
             </div>
 
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '8px' }}>
-              Chat with {candidateName}'s AI Clone
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.5rem',
+              fontWeight: 600,
+              marginBottom: '8px'
+            }}>
+              Chat with {candidateName}'s AI Representative
             </h2>
 
             <p style={{
@@ -64,7 +79,7 @@ export default function ChatBox({ messages, isStreaming, profile, onSelectPrompt
               marginBottom: '24px',
               lineHeight: '1.6'
             }}>
-              I am an AI representation grounded strictly on verified background data. Ask me anything about engineering skills, projects, experience, or evaluate role fit!
+              Grounded strictly on verified background data — ask about engineering skills, projects, and experience, or evaluate role fit directly.
             </p>
 
             {/* Suggested Starter Questions */}
@@ -94,19 +109,20 @@ export default function ChatBox({ messages, isStreaming, profile, onSelectPrompt
                 <div style={{
                   width: '36px',
                   height: '36px',
-                  borderRadius: '50%',
-                  background: 'var(--accent-gradient)',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'var(--bg-input)',
+                  border: '1px solid var(--border-color)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#fff',
-                  boxShadow: 'var(--accent-glow)'
+                  color: 'var(--accent-primary)',
+                  flexShrink: 0
                 }}>
-                  <Sparkles size={18} />
+                  <Sparkles size={16} />
                 </div>
                 <div style={{
                   padding: '10px 16px',
-                  borderRadius: '16px',
+                  borderRadius: 'var(--radius-lg)',
                   background: 'var(--assistant-msg-bg)',
                   fontSize: '0.85rem',
                   color: 'var(--text-secondary)',
